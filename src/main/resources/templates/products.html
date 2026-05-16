@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRESTIJ</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* dropdown */
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 font-sans antialiased text-slate-900 tracking-tight">
+
+<div class="bg-neutral-900 text-white text-xs font-medium py-2 px-4 text-center tracking-widest uppercase">
+    Собери корзину на сайте и без очереди забери в магазине
+</div>
+
+<header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
+
+        <a href="/page/products"
+           class="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-neutral-950 to-neutral-700">
+            PRESTIJ<span class="text-indigo-600">.</span>
+        </a>
+
+        <nav class="hidden md:flex space-x-10 text-sm font-semibold uppercase tracking-wider text-slate-600">
+            <a href="/page/products"
+               class="text-neutral-950 border-b-2 border-neutral-950 pb-1">
+                Каталог
+            </a>
+        </nav>
+
+    </div>
+
+</header>
+
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+
+    <!-- TITLE + FILTERS -->
+    <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16">
+
+        <div class="max-w-3xl">
+
+            <p class="text-xs font-bold uppercase tracking-widest text-indigo-600 mb-3">
+                Лучшие товары по приятным ценам
+            </p>
+
+            <h2 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-neutral-950 mb-4">
+                Наши товары
+            </h2>
+
+            <p class="text-lg text-slate-500 leading-relaxed">
+                Тщательно отобранные товары для вашего магазина.
+            </p>
+
+        </div>
+
+        <!-- DROPDOWN CATEGORIES -->
+        <div class="relative group inline-block">
+
+            <!-- BUTTON -->
+            <button class="px-5 py-2 rounded-2xl bg-white border border-slate-200">
+                Категории
+            </button>
+
+            <!-- DROPDOWN -->
+            <div class="absolute left-0 mt-2 w-56 bg-white border rounded-2xl shadow-lg
+                opacity-0 invisible group-hover:opacity-100 group-hover:visible
+                transition-all duration-200 z-50">
+
+                <a th:each="category : ${categories}"
+                   th:href="@{/page/products/{category}(category=${category})}"
+                   th:text="${category}"
+                   class="block px-4 py-2 hover:bg-slate-100">
+                </a>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PRODUCTS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-8 gap-y-12">
+
+        <div th:each="product : ${products}"
+             class="animate-fade-in group relative flex flex-col bg-white rounded-3xl border border-slate-100 overflow-hidden shadow-xs hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+
+            <div class="aspect-square w-full bg-slate-50 overflow-hidden relative">
+
+                <img th:src="${product.img}"
+                     th:alt="${product.name}"
+                     class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out">
+
+                <div class="absolute inset-0 bg-neutral-950/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+            </div>
+
+            <div class="p-6 flex flex-col flex-grow">
+
+                <span th:text="${product.category}"
+                      class="text-[11px] font-bold uppercase tracking-widest text-slate-400 mb-2 block">
+                    CATEGORY
+                </span>
+
+                <h3 th:text="${product.name}"
+                    class="text-lg font-bold text-neutral-950 leading-snug group-hover:text-indigo-600 transition-colors min-h-[52px] mb-4">
+                    Product Name
+                </h3>
+
+                <p th:text="${product.description}"
+                   class="text-sm text-slate-500 mb-6 line-clamp-3">
+                    Description
+                </p>
+
+                <div class="mt-auto pt-4 border-t border-slate-50 flex items-center justify-between gap-4">
+
+                    <div class="flex flex-col">
+                        <span class="text-[10px] uppercase tracking-wider text-slate-400 font-medium">
+                            Цена
+                        </span>
+
+                        <span th:text="${product.price} + ' ₽'"
+                              class="text-xl font-black text-neutral-950">
+                            0 ₽
+                        </span>
+                    </div>
+
+                    <button class="bg-neutral-950 hover:bg-indigo-600 active:scale-95 text-white text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl transition-all duration-200">
+                        В корзину
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<footer class="bg-white border-t border-slate-100 mt-32 py-12">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-sm text-slate-400 text-center">
+        &copy; 2026 PRESTIJ. Все права защищены.
+    </div>
+
+</footer>
+
+</body>
+</html>

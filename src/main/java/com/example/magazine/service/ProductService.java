@@ -26,6 +26,10 @@ public class ProductService {
     }
 
 
+    public List<String> allCat(){
+        return productRepository.findDistinctCategories();
+    }
+
     public List<Product> getProductsByCategoriy(String category){
         return productRepository.findAllByCategory(category);
     }
